@@ -1,6 +1,8 @@
 from app import app
 from models import db, User
-from bcrypt import bcrypt
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt()
 
 db.drop_all()
 db.create_all()

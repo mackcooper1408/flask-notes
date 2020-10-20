@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db
+from models import db, connect_db, User
 from forms import RegisterForm, LoginForm
 
 app = Flask(__name__)
@@ -11,6 +11,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'secret'
 
 connect_db(app)
+db.create_all()
 
 debug = DebugToolbarExtension(app)
 
@@ -28,8 +29,24 @@ def register_user():
     form = RegisterForm()
 
     if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        email = form.email.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
 
+        user = User.register(username=username,
+                             password=password,
+                             email=email,
+                             first_name=first_name,
+                             last_name=last_name)
+        print(user)
 
-        return redirect("/secret")
+        if user:
+            db.session.add(user)
+            db.session.commit()
+            return redirect("/secret")
 
+        else:
+            form.username.errors = ["invalid username or password"]
     return render_template("register.html", form=form)

@@ -9,7 +9,7 @@ class RegisterForm(FlaskForm):
 
     username = StringField("User Name", validators=[InputRequired()])
     password = PasswordField("Password",
-                           validators=[InputRequired(), Length(min=8, max=15, message="""Password must be between 8 and 15characters.""")])
+                             validators=[InputRequired(), Length(min=8, max=15, message="""Password must be between 8 and 15characters.""")])
     email = StringField("Email Address", validators=[InputRequired(), Email()])
     first_name = StringField("First Name", validators=[InputRequired()])
     last_name = StringField("Last Name", validators=[InputRequired()])

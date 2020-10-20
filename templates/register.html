@@ -9,7 +9,7 @@ Flask Notes
 {% endblock %}
 
 {% block content %}
-    <form action="/register" class="form-group">
+    <form action="/register" class="form-group" method="POST">
         {{ form.hidden_tag() }}
 
         {% for field in form if field.widget.input_type != 'hidden' %}
