@@ -8,8 +8,18 @@ Flask Notes
     <h1 class="text-center">Register!</h1>
 {% endblock %}
 
+
 {% block content %}
-    <form action="/register" class="form-group" method="POST">
+
+    {% for message in get_flashed_messages() %}
+      <p>{{ message }}</p>
+    {% endfor %}
+
+    <div>
+        <a href="/login" class="badge badge-pill badge-primary">Login</a>
+    </div>
+
+    <form action="/register" class="form-group mt-4" method="POST">
         {{ form.hidden_tag() }}
 
         {% for field in form if field.widget.input_type != 'hidden' %}

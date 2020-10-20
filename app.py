@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User
 from forms import RegisterForm, LoginForm
@@ -40,13 +40,58 @@ def register_user():
                              email=email,
                              first_name=first_name,
                              last_name=last_name)
-        print(user)
 
         if user:
             db.session.add(user)
             db.session.commit()
-            return redirect("/secret")
+
+            session["user_id"] = user.username
+            return redirect(f"/users/{user.username}")
 
         else:
             form.username.errors = ["invalid username or password"]
     return render_template("register.html", form=form)
+
+
+@app.route("/login", strict_slashes=False, methods=["GET", "POST"])
+def login():
+    """ Show and login user"""
+
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+
+        user = User.authenticate(username=username, password=password)
+
+        if user:
+            session["user_id"] = user.username
+            return redirect(f"/users/{user.username}")
+        else:
+            form.username.errors = ["invalid username or password"]
+    return render_template("login.html", form=form)
+
+
+@app.route("/users/<username>")
+def secret(username):
+    """ Show user page """
+    user = User.query.filter_by(username=username).first()
+
+    if "user_id" not in session:
+        flash("You must be logged in to view!")
+        return redirect("/")
+    elif session["user_id"] != username:
+        flash("Not a valid user!")
+        return redirect("/")
+    else:
+        return render_template("user.html", user=user)
+
+
+@app.route("/logout")
+def logout():
+    """ Logout User """
+
+    session.pop("user_id")
+
+    return redirect("/")

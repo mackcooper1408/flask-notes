@@ -36,6 +36,30 @@ class User(db.Model):
                    first_name=first_name,
                    last_name=last_name)
 
+    @classmethod
+    def authenticate(cls, username, password):
+        """ Validate that user exists & password is correct"""
+
+        user = User.query.filter_by(username=username).first()
+
+        if user and bcrypt.check_password_hash(user.password, password):
+            return user
+        else:
+            return False
+
+
+# class Note(db.Model):
+#     """Notes class """
+#     __tablename__ = "notes"
+
+#     id = 
+
+#     notes = db.Column(db.String(50),
+#                       unique=True,
+#                       nullable=False)
+    
+
+
 
 def connect_db(app):
     db.app = app
