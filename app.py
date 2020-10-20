@@ -20,7 +20,7 @@ debug = DebugToolbarExtension(app)
 def redirect_to_register():
     """ redirects to register page """
 
-    return redirect("/register")
+    return render_template("home.html")
 
 
 @app.route("/register", strict_slashes=False, methods=["GET", "POST"])

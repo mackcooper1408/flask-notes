@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Notes
+{% endblock %}
+
+
+{% block header %}
+
+{% for message in get_flashed_messages() %}
+  <h1 class="text-center text-danger">{{ message }}</h1>
+{% endfor %}
+
+<h1 class="text-center"> Welcome to Notes!</h1>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="row mt-4">
+    <div class="col d-flex flex-column align-items-center">
+        <h2 class="text-center">New Here? Sign Up Now!</h2>
+        
+        <a class="btn btn-info rounded" href="/register">register</a>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col d-flex flex-column align-items-center">
+        <h4 class="text-center">Or Just Sign In...</h4>
+        
+        <a class="btn btn-sm btn-info rounded" href="/login">login</a>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -9,7 +9,12 @@ Notes Login
 {% endblock %}
 
 {% block content %}
-    <form class='form-group' method='POST'>
+
+    <div>
+        <a href="/register" class="badge badge-pill badge-primary">sign up</a>
+    </div>
+
+    <form class='form-group mt-4' method='POST'>
         <!--add type=hidden form fields -->
         {{ form.hidden_tag() }}
     
