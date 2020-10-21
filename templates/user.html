@@ -5,13 +5,46 @@ Notes Secret
 {% endblock %}
 
 {% block header %}
-<h1 class="text-center">SECRETS!</h1>
+<h1 class="text-center">Welcome {{ user.first_name }} {{ user.last_name }}!</h1>
+<div class="d-flex justify-content-end">
+    <a href="/logout" class="badge badge-pill badge-primary rounded">logout</a>
+</div>
 {% endblock %}
 
 {% block content %}
-<a href="/logout" class="badge badge-pill badge-primary">logout</a>
 
-<div class="col mt-4">
-    <img class="media" src="https://bit.ly/2HhSP62" alt="secrets">
+<ul class="list-group mt-4">
+    <div class="list-group-item rounded m-4">
+        <p class="">username: {{ user.username }}</p>
+        <p class="">email: {{ user.email }}</p>
+        <p class="">first name: {{ user.first_name }}</p>
+        <p class="">last name: {{ user.last_name }}</p>
+    </div>
+</ul>
+
+<form class="text-center" action="/users/{{user.username}}/delete" method="POST">
+    <button type="submit" class="btn btn-danger rounded">DELETE USER</button>
+</form>
+
+<h3 class="m-4">My Notes</h3>
+
+<div class="list-group-item list-group-item-info m-4">
+{% for note in user.notes %}
+    <div class="my-3">
+        <form class="d-inline" action="/notes/{{note.id}}/delete" method="POST">
+            <button type="submit" class="btn btn-danger btn-sm rounded mr-2">delete</button>
+        </form>
+        <a href="/notes/{{note.id}}/update" class="">{{note.title}}</a>
+    </div>
+        
+    {% endfor %}
 </div>
+<div class="text-center mt-4">
+    <a href="/users/{{user.username}}/notes/add" class="btn btn-primary rounded">Add Note</a>
+</div>
+
+
+
+
+
 {% endblock %}

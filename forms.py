@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, PasswordField, validators, ValidationError
+from wtforms import StringField, PasswordField, TextAreaField
 from wtforms.validators import InputRequired, Optional, URL, Email, Length
 import email_validator
 
@@ -20,4 +20,12 @@ class LoginForm(FlaskForm):
 
     username = StringField("User Name", validators=[InputRequired()])
     password = PasswordField("Password", validators=[InputRequired()])
+
+
+class NoteForm(FlaskForm):
+    """ Form for adding user notes"""
+
+    title = StringField("Title", validators=[InputRequired()])
+    content = TextAreaField("Content", validators=[InputRequired()])
+
 
